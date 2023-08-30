@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import JoblyApi from "./api";
-import JobCard from './JobCard';
+import JobCardList from "./JobCardList";
 import SearchForm from './SearchForm';
 
 /** Renders a list of jobs
@@ -11,23 +11,20 @@ import SearchForm from './SearchForm';
  *
  * RoutesList -> Joblist -> {Searchform, JobCardList}
  */
-function Joblist() {
+function Joblist({filter}) {
 
   const [jobs, setJobs] = useState({ isLoading: true, jobs: [] });
   console.log('jobs', jobs);
 
   useEffect(function fetchJobsOnMount() {
-
-
-    fetchJobs();
+    fetchJobs(filter);
   }, []);
 
-  async function fetchJobs(term) {
-    const response = await JoblyApi.getAllJobs(term);
+  async function fetchJobs(query) {
+    const response = await JoblyApi.getAllJobs(query);
     console.log('response', response);
     setJobs({ isLoading: false, jobs: response})
   }
-
 
 
   return (
@@ -35,7 +32,7 @@ function Joblist() {
     <div>
       <h1>Joblist</h1>
       <SearchForm doSearch={fetchJobs} />
-      {jobs.jobs.map( job => <JobCard job={job} /> )}
+      <JobCardList jobs={jobs.jobs}/>
     </div>
   );
 }

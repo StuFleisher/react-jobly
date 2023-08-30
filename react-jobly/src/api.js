@@ -45,19 +45,31 @@ class JoblyApi {
     return res.company;
   }
 
-  /** Get a list of all companies */
-//TODO: may need to come back and revise
-  static async getAllCompanies(term) {
-    const queryString = term ? `?nameLike=${term}` : ''
+  /** Get a list of all companies filtered by name*/
+  static async getAllCompanies(nameLike) { //{nameLike:anderson}
+    const queryString = nameLike ? `?nameLike=${nameLike}` : '';
+
     const res = await this.request(`companies${queryString}`);
     return res.companies;
 
   }
 
-  /** Get a list of all jobs */
+  /** Get a list of all jobs filtered by title */
 
-  static async getAllJobs(term){
-    const queryString = term ? `?title=${term}` : ''
+  static async getAllJobs(title){
+
+    const queryString = title ? `?title=${title}` : '';
+    const res = await this.request(`jobs${queryString}`);
+
+    return res.jobs;
+
+  }
+
+  /** Get a list of all jobs filtered by company */
+
+  static async getJobsByCompany(company){
+
+    const queryString = company ? `?title=${company}` : '';
     const res = await this.request(`jobs${queryString}`);
 
     return res.jobs;

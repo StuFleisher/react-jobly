@@ -25,8 +25,8 @@ function CompanyList() {
 
   }, []);
 
-  async function fetchCompanies(term) {
-    const response = await JoblyApi.getAllCompanies(term);
+  async function fetchCompanies(query) {
+    const response = await JoblyApi.getAllCompanies(query);
 
     console.log('**response', response);
     setCompanies({ isLoading: false, all: response });

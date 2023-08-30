@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 
 import React from 'react';
 import JoblyApi from './api.js';
-
+import JobCardList from "./JobCardList.js";
 
 
 /** Renders info on a particular company
@@ -28,6 +28,7 @@ function CompanyDetails() {
   useEffect(function fetchCompanyDetailsWhenMounted() {
     async function fetchCompanyDetails() {
       const response = await JoblyApi.getCompany(handle);
+      console.log("***response", response)
       setCompanyDetails({
         company: response, isLoading: false
       });
@@ -35,15 +36,19 @@ function CompanyDetails() {
     fetchCompanyDetails();
   }, []);
 
+
+
   return (
-    <div className="CompanyDetails">
-      <h1>Company Details</h1>
-      <h2>{companyDetails.company.name}</h2>
-      <p>{companyDetails.company.description}</p>
-
-
-
-    </div>
+    companyDetails.isLoading
+      ?
+        <p>Loading...</p>
+      :
+        <div className="CompanyDetails">
+          <h1>Company Details</h1>
+          <h2>{companyDetails.company.name}</h2>
+          <p>{companyDetails.company.description}</p>
+          <JobCardList jobs={companyDetails.company.jobs} />
+        </div>
   );
 }
 
