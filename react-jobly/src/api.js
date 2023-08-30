@@ -47,16 +47,19 @@ class JoblyApi {
 
   /** Get a list of all companies */
 //TODO: may need to come back and revise
-  static async getAllCompanies() {
-    const res = await this.request(`companies/`);
+  static async getAllCompanies(term) {
+    const queryString = term ? `?nameLike=${term}` : ''
+    const res = await this.request(`companies${queryString}`);
     return res.companies;
 
   }
 
   /** Get a list of all jobs */
 
-  static async getAllJobs(){
-    const res = await this.request(`jobs/`);
+  static async getAllJobs(term){
+    const queryString = term ? `?title=${term}` : ''
+    const res = await this.request(`jobs${queryString}`);
+
     return res.jobs;
 
   }

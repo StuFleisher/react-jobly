@@ -1,6 +1,8 @@
 import CompanyCard from "./CompanyCard";
 import { useState, useEffect } from "react";
 import JoblyApi from "./api";
+import './CompanyCard.css'
+import SearchForm from './SearchForm';
 
 /** Renders a list of all companies
  * States: companies (object)
@@ -14,21 +16,28 @@ import JoblyApi from "./api";
 function CompanyList() {
 
   const [companies, setCompanies] = useState({ all: [], isLoading: true });
+
+  console.log('***companies', companies);
+
   useEffect(function fetchCompaniesOnMount() {
-    async function fetchCompanies() {
-      const response = await JoblyApi.getAllCompanies();
-      setCompanies({ isLoading: false, all: response.data });
-    }
 
     fetchCompanies();
 
   }, []);
 
+  async function fetchCompanies(term) {
+    const response = await JoblyApi.getAllCompanies(term);
+
+    console.log('**response', response);
+    setCompanies({ isLoading: false, all: response });
+  }
+
 
   return (
     <div className="CompanyList">
       <h1>Companies page</h1>
-      {companies.map(company => (
+      <SearchForm doSearch={fetchCompanies}/>
+      {companies.all.map(company => (
         <CompanyCard company={company} key={company.handle} />
       ))}
     </div>
