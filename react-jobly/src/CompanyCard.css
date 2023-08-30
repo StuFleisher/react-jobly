@@ -1,0 +1,19 @@
+
+.CompanyCard {
+    width: 80%;
+    position: relative;
+    background-color: white;
+    filter:drop-shadow(0 0 0 .25em black);
+    padding: 1em;
+}
+
+.CompanyCard-image{
+    position: absolute;
+    top: 0em;
+    right:0em;
+}
+
+.CompanyCard-title{
+    font-weight: bolder;
+    font-size: large;
+}
