@@ -1,9 +1,22 @@
 import { useState } from "react";
 
-
+/** Renders the search form
+ *
+ * Props:
+ * -doSearch
+ *
+ * State:
+ * -formData:
+ * {term: ''}
+ * {term: 'brewer'}
+ *
+ * {CompanyList, JobList} -> SearchForm
+ */
 function SearchForm({ doSearch }) {
 
   const [formData, setFormData] = useState({term: ''});
+
+  console.log('formData', formData);
 
   /** Send search term to parent
  *    & clear form. */

@@ -1,10 +1,24 @@
+import { Link } from "react-router-dom";
+
+/** Renders info on a company
+ *
+ * Props:
+ * -company: {handle, name, description, logoURL}
+ * TODO: include an example
+ *
+ * State:
+ * -none:
+ *
+ * CompanyList -> CompanyCard
+ */
+
 
 function CompanyCard({ company }) {
-
+//TODO: maybe use Link instead of an a tag
   return (
     <div className="CompanyCard">
-      <a href={`/companies/${company.handle}`}>
-        <p className="CompanyCard-name">{company.name}</p>
+      <Link to={`/companies/${company.handle}`}>{company.name}</Link>
+
         <div className="CompanyCard-image">
           {company.logoUrl
             ?
@@ -14,7 +28,7 @@ function CompanyCard({ company }) {
 
         </div>
         <p className="CompanyCard-description">{company.description}</p>
-      </a>
+
     </div>
   );
 }

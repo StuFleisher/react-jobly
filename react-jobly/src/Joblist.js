@@ -2,28 +2,36 @@ import { useState, useEffect } from "react";
 import JoblyApi from "./api";
 import JobCardList from "./JobCardList";
 import SearchForm from './SearchForm';
+import LoadingPage from "./LoadingPage";
 
 /** Renders a list of jobs
  *
  * Props:
  *
  * States:
+ * -jobs
+ * -{isLoading: true, jobs: []}
+ * -{isLoading: false, jobs: [id, title, salary, equity]}
  *
  * RoutesList -> Joblist -> {Searchform, JobCardList}
  */
-function Joblist({filter}) {
+//TODO: be consistent with naming: JobList, CompanyList
+function JobList() {
 
   const [jobs, setJobs] = useState({ isLoading: true, jobs: [] });
   console.log('jobs', jobs);
 
   useEffect(function fetchJobsOnMount() {
-    fetchJobs(filter);
+    fetchJobs();
   }, []);
 
-  async function fetchJobs(query) {
-    const response = await JoblyApi.getAllJobs(query);
-    console.log('response', response);
-    setJobs({ isLoading: false, jobs: response})
+  /** makes an API call to get a list of all jobs filtered by title */
+  async function fetchJobs(title) {
+
+      const response = await JoblyApi.getAllJobs(title);
+      console.log('response', response);
+      setJobs({ isLoading: false, jobs: response });
+
   }
 
 
@@ -32,10 +40,14 @@ function Joblist({filter}) {
     <div>
       <h1>Joblist</h1>
       <SearchForm doSearch={fetchJobs} />
-      <JobCardList jobs={jobs.jobs}/>
+      {jobs.isLoading
+        ?
+        <LoadingPage />
+        :
+        <JobCardList jobs={jobs.jobs} />}
     </div>
   );
 }
 
 
-export default Joblist;
+export default JobList;

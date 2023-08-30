@@ -1,5 +1,15 @@
 
-
+/** Renders details for a particular job
+ *
+ * Props:
+ * -job
+ * {title, salary, equity}
+ *
+ * State:
+ * -none
+ *
+ * JobCardList -> JobCard
+ */
 
 
 function JobCard({job}) {
