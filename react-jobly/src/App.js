@@ -1,5 +1,6 @@
 import './App.css';
-import { BrowserRouter, useState, useEffect } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
+import { useState, useEffect } from 'react';
 import Navigation from './Navigation';
 import RoutesList from './RoutesList';
 import userContext from './userContext.js';
@@ -20,13 +21,22 @@ import JoblyApi from './api';
  */
 function App() {
 
-  const [user, setUser] = useState();
-  const [token, setToken] = useState("");
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
+
 
   // function updateUser(newUser){
   //   setUser(newUser);
   // }
-  useEffect(function updateToken (token) {JoblyApi.token=token}, [token])
+  useEffect(function updateTokenOnMount(token) {
+    async function updateToken() {
+
+      JoblyApi.token = token;
+      const userData = await JoblyApi.getUser(credentials.username);
+      setUser(userData);
+    }
+    updateToken();
+  }, [token]);
 
   /** Calls the api with login credentials and tries to log the user in
    * If successful, updates the token and the user states.
@@ -38,8 +48,11 @@ function App() {
     const token = await JoblyApi.userLogin(credentials);
     setToken(token);
 
-    const userData = await JoblyApi.getUser(credentials.username);
-    setUser(userData);
+  }
+
+  function logout() {
+    setUser(null);
+    setToken(null);
   }
 
   /** Calls the api with user data and tries to create a new account.
@@ -48,20 +61,25 @@ function App() {
    *
    * userData:{username, password, firstName, lastName, email}
    */
-  async function register(userData){
-    const token = await JoblyApi.userSignup(userData);
+  async function register(userInfo) {
+    const token = await JoblyApi.userSignup(userInfo);
     setToken(token);
-
-    const userData = await JoblyApi.getUser(userData.username);
-    setUser(userData);
+    setUser({
+      username: userInfo.username,
+      firstname: userInfo.firstname,
+      lastname: userInfo.lastname,
+      email: userInfo.email
+    });
   }
+
+
 
   return (
     <div className='App'>
-      <userContext.Provider >
+      <userContext.Provider value={{ username: user?.username, token }}>
         <BrowserRouter>
-          <Navigation />
-          <RoutesList />
+          <Navigation logout={logout} />
+          <RoutesList register={register} login={login} />
         </BrowserRouter>
       </ userContext.Provider>
     </div>

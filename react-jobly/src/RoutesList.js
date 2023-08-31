@@ -4,6 +4,9 @@ import CompanyList from './CompanyList';
 import CompanyDetails from './CompanyDetails';
 import JobList from './JobList';
 import SignupForm from "./SignupForm";
+import LoginForm from './LoginForm';
+import {useContext} from "react";
+import userContext from "./userContext";
 
 
 /**Renders a list of all routes
@@ -11,27 +14,36 @@ import SignupForm from "./SignupForm";
  * App -> RouteList -> {Homepage, Companies, CompanyDetails, Joblist}
 */
 //TODO: rename the component
-function RoutesList() {
+function RoutesList({login, register}) {
+
+  const { username } = useContext(userContext);
+
 
   return (
     <Routes>
+      {!username
+      ?
+      <>
       <Route path='/' element={<Homepage />}/>
-      <Route path='/login' element={<LoginForm />}/>
-      <Route path='/signup' element={<SignupForm />}/>
+      <Route path='/login' element={<LoginForm doLogin={login} />}/>
+      <Route path='/signup' element={<SignupForm doSignup={register} />}/>
+      </>
 
-
-
+     :
+     <>
       <Route path='/companies' element={<CompanyList />}/>
       <Route path='/companies/:handle' element={<CompanyDetails />}/>
       <Route path='/jobs' element={<JobList />}/>
-      <Route path='/profile' element={<ProfileForm />}/>
       <Route path='*' element={<Navigate to='/' />}/>
+    </>
+    }
     </Routes>
-
-
   );
 
 }
+
+//TODO: for later use
+/* <Route path='/profile' element={<ProfileForm />}/> */
 
 
 export default RoutesList;

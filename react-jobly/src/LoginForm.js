@@ -3,23 +3,20 @@ import React, { useState } from "react";
 const INITIAL_FORM_DATA={
   username:"",
   password:"",
-  firstName:"",
-  lastName:"",
-  email:"",
 }
 
-/** Renders a signup form
+/** Renders a login form
  *
  * STATE: formData
  *
- * PROPS: doSignup (callback function)
+ * PROPS: doLogin (callback function)
  *
- * RoutesList --> SignupForm --> Alert
+ * RoutesList --> LoginForm --> Alert
  */
 
 //TODO: update this to be login form not signup form
 
-function SignupForm(doSignup) {
+function LoginForm({doLogin}) {
 
   const [formData, setFormData] = useState(INITIAL_FORM_DATA)
 
@@ -36,10 +33,36 @@ function SignupForm(doSignup) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    doSignup(formData);
+    doLogin(formData);
     setFormData(INITIAL_FORM_DATA);
   }
 
+  return (
+    <div className='LoginForm'>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor='username'>Username</label>
+        <input
+          id='username'
+          name='username'
+          value={formData.username}
+          onChange={handleChange} />
+
+        <label htmlFor='password'>Password</label>
+        <input
+          type='password'
+          id='password'
+          name='password'
+          value={formData.password}
+          onChange={handleChange} />
+      <button>Login</button>
+      </form>
+
+    </div>
+
+
+
+  )
+
 }
 
-export default SignupForm;
+export default LoginForm;
