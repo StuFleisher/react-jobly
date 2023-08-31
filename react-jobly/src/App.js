@@ -1,14 +1,18 @@
 import './App.css';
-import { NavLink, BrowserRouter } from "react-router-dom";
+import { NavLink, BrowserRouter, useState } from "react-router-dom";
 import Navigation from './Navigation';
 import RoutesList from './RoutesList';
+import userContext from './userContext.js';
+
 
 
 /** Renders the Navigation bar and Routeslist
  *
  * State:
- * -none
- *
+ * -user
+ * { username, firstName, lastName, isAdmin, jobs }
+ * -token
+ * {}
  * Props:
  * -none
  *
@@ -16,13 +20,24 @@ import RoutesList from './RoutesList';
  */
 function App() {
 
+  const [user, setUser] = useState()
+
+  const [token, setToken] = useState()
+
+  function updateUser(newUser){
+    setUser(newUser);
+  }
+
   return (
     <div className='App'>
-      <BrowserRouter>
-        <Navigation />
-        <RoutesList />
-      </BrowserRouter>
+      <userContext.Provider >
+        <BrowserRouter>
+          <Navigation />
+          <RoutesList />
+        </BrowserRouter>
+      </ userContext.Provider>
     </div>
+
   );
 }
 

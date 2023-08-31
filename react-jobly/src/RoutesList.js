@@ -14,11 +14,18 @@ function RoutesList() {
   return (
     <Routes>
       <Route path='/' element={<Homepage />}/>
+      <Route path='/login' element={<LoginForm />}/>
+      <Route path='/signup' element={<Signup />}/>
+
+
+
       <Route path='/companies' element={<CompanyList />}/>
       <Route path='/companies/:handle' element={<CompanyDetails />}/>
       <Route path='/jobs' element={<JobList />}/>
+      <Route path='/profile' element={<ProfileForm />}/>
       <Route path='*' element={<Navigate to='/' />}/>
     </Routes>
+
 
   );
 

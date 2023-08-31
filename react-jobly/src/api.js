@@ -49,8 +49,8 @@ class JoblyApi {
   static async getAllCompanies(nameLike) { //{nameLike:anderson}
     const queryString = nameLike ? `?nameLike=${nameLike}` : '';
 
-    const res = await this.request(`companies${queryString}`);
-    return res.companies;
+    const data = await this.request(`companies${queryString}`);
+    return data.companies;
 
   }
 
@@ -59,9 +59,9 @@ class JoblyApi {
   static async getAllJobs(title){
 
     const queryString = title ? `?title=${title}` : '';
-    const res = await this.request(`jobs${queryString}`);
+    const data = await this.request(`jobs${queryString}`);
 
-    return res.jobs;
+    return data.jobs;
 
   }
 
@@ -70,10 +70,24 @@ class JoblyApi {
   static async getJobsByCompany(company){
 
     const queryString = company ? `?title=${company}` : '';
-    const res = await this.request(`jobs${queryString}`);
+    const data = await this.request(`jobs${queryString}`);
 
-    return res.jobs;
+    return data.jobs;
 
+  }
+
+  /** Login for a user */
+
+  static async userLogin(data) {
+    const responseData = await this.request('/token', data, 'post')
+    return responseData.token;
+  }
+
+  /** Signup for a user */
+
+  static async userSignup(data){
+    const responseData = await this.request('/register', data, 'post')
+    return responseData.token;
   }
 
 
