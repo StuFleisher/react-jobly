@@ -14,9 +14,11 @@ class JoblyApi {
   // Remember, the backend needs to be authorized with a token
   // We're providing a token you can use to interact with the backend API
   // DON'T MODIFY THIS TOKEN
-  static token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZ" +
-    "SI6InRlc3R1c2VyIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTU5ODE1OTI1OX0." +
-    "FtrMwBQwe6Ue-glIFgz_Nf8XxRT2YecFCiSpYL0fCXc";
+  static token = "";
+
+  // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZ" +
+  //   "SI6InRlc3R1c2VyIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTU5ODE1OTI1OX0." +
+  //   "FtrMwBQwe6Ue-glIFgz_Nf8XxRT2YecFCiSpYL0fCXc";
 
   static async request(endpoint, data = {}, method = "get") {
     console.debug("API Call:", endpoint, data, method);
@@ -79,18 +81,23 @@ class JoblyApi {
   /** Login for a user */
 
   static async userLogin(data) {
-    const responseData = await this.request('/token', data, 'post')
+    const responseData = await this.request('auth/token', data, 'post')
     return responseData.token;
   }
 
   /** Signup for a user */
 
   static async userSignup(data){
-    const responseData = await this.request('/register', data, 'post')
+    const responseData = await this.request('auth/register', data, 'post')
     return responseData.token;
   }
 
+  /** Get a user by username */
 
+  static async getUser(username){
+    const responseData = await this.request(`/users/${username}`)
+    return responseData;
+  }
   // obviously, you'll add a lot here ...
 }
 

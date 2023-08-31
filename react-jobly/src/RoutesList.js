@@ -3,6 +3,8 @@ import Homepage from './Homepage';
 import CompanyList from './CompanyList';
 import CompanyDetails from './CompanyDetails';
 import JobList from './JobList';
+import SignupForm from "./SignupForm";
+
 
 /**Renders a list of all routes
  *
@@ -15,7 +17,7 @@ function RoutesList() {
     <Routes>
       <Route path='/' element={<Homepage />}/>
       <Route path='/login' element={<LoginForm />}/>
-      <Route path='/signup' element={<Signup />}/>
+      <Route path='/signup' element={<SignupForm />}/>
 
 
 
