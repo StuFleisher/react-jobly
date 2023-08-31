@@ -95,8 +95,10 @@ class JoblyApi {
   /** Get a user by username */
 
   static async getUser(username){
-    const responseData = await this.request(`/users/${username}`)
-    return responseData;
+    console.log("api fetching",username)
+    const responseData = await this.request(`users/${username}`)
+    console.log(responseData)
+    return responseData.user;
   }
   // obviously, you'll add a lot here ...
 }

@@ -14,7 +14,6 @@ const INITIAL_FORM_DATA={
  * RoutesList --> LoginForm --> Alert
  */
 
-//TODO: update this to be login form not signup form
 
 function LoginForm({doLogin}) {
 

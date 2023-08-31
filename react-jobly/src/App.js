@@ -6,6 +6,13 @@ import RoutesList from './RoutesList';
 import userContext from './userContext.js';
 import JoblyApi from './api';
 
+const INITIAL_USER_DATA = {
+  username:null,
+  firstName:null,
+  lastName:null,
+  isAdmin:null,
+  jobs:null,
+}
 
 /** Renders the Navigation bar and Routeslist
  *
@@ -21,22 +28,36 @@ import JoblyApi from './api';
  */
 function App() {
 
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(INITIAL_USER_DATA);
   const [token, setToken] = useState(null);
 
+  console.log("rendering app.\n user:",user,"\ntoken:",token );
 
-  // function updateUser(newUser){
-  //   setUser(newUser);
-  // }
-  useEffect(function updateTokenOnMount(token) {
+  /** Stores the users token in the JoblyApi class for future use */
+
+  useEffect(function updateTokenOnMount() {
     async function updateToken() {
 
       JoblyApi.token = token;
-      const userData = await JoblyApi.getUser(credentials.username);
-      setUser(userData);
+
     }
     updateToken();
   }, [token]);
+
+
+  /** Makes an api call and updates the remaining user data whenever
+   * username changes */
+
+  useEffect(function getFullUserDataOnNameChange(){
+    async function getFullUserData(){
+      const userData = await JoblyApi.getUser(user.username);
+      setUser(userData)
+    }
+
+    if (user.username){getFullUserData()};
+
+  },[user.username])
+
 
   /** Calls the api with login credentials and tries to log the user in
    * If successful, updates the token and the user states.
@@ -44,12 +65,16 @@ function App() {
    *
    * data: {username, password}
    */
+
   async function login(credentials) {
     const token = await JoblyApi.userLogin(credentials);
     setToken(token);
 
+    setUser({username:credentials.username});
+
   }
 
+  /** Logs the user out and resets state for the app */
   function logout() {
     setUser(null);
     setToken(null);

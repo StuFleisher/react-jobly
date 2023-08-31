@@ -11,9 +11,12 @@ import userContext from "./userContext";
 
 /**Renders a list of all routes
  *
+ *  PROPS:
+ *    login (callback for logins)
+ *    register (callback for user signups)
  * App -> RouteList -> {Homepage, Companies, CompanyDetails, Joblist}
 */
-//TODO: rename the component
+
 function RoutesList({login, register}) {
 
   const { username } = useContext(userContext);
