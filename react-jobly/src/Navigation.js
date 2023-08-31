@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-
+import "./Navigation.css"
 
 /**Renders the navigation bar */
 function Navigation() {
@@ -11,11 +11,15 @@ function Navigation() {
   return (
 
     <nav className="Navigation">
+
+      <div className="Navigation-home">
       <NavLink to='/' style={({ isActive }) =>
         isActive ? activeStyle : undefined} end>
         Jobly
       </NavLink>
+      </div>
 
+      <div className="Navigation-pages">
       <NavLink to='/companies' style={({ isActive }) =>
         isActive ? activeStyle : undefined} end>
         Companies
@@ -26,6 +30,7 @@ function Navigation() {
         isActive ? activeStyle : undefined} end>
         Jobs
       </NavLink>
+      </div>
 
 
 

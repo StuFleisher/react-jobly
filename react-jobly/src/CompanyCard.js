@@ -17,7 +17,11 @@ function CompanyCard({ company }) {
 //TODO: maybe use Link instead of an a tag
   return (
     <div className="CompanyCard">
-      <Link to={`/companies/${company.handle}`}>{company.name}</Link>
+      <div className="CompanyCard-title">
+      <Link to={`/companies/${company.handle}`}>
+        {company.name}
+      </Link>
+      </div>
 
         <div className="CompanyCard-image">
           {company.logoUrl

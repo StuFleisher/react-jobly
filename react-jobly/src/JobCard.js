@@ -1,3 +1,4 @@
+import "./JobCard.css"
 
 /** Renders details for a particular job
  *
@@ -16,7 +17,7 @@ function JobCard({job}) {
 
   return(
     <div className="JobCard">
-      <h3>{job.title}</h3>
+      <h3 className="JobCard-title">{job.title}</h3>
       {job.salary ? <p>Salary: {job.salary}</p> : '' }
       {job.equity ? <p>Equity: {job.equity}</p> : '' }
 

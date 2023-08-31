@@ -1,0 +1,22 @@
+.Navigation {
+    background-color: white;
+    padding: 1em; display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width:100wv;
+}
+
+.Navigation a{
+    text-decoration: none;
+}
+
+.Navigation-home{
+    font-weight: bolder;
+    font-size: 1.5em;
+}
+
+.Navigation-pages a{
+    margin-left: 5px;
+    margin-right: 5px;
+
+}
