@@ -15,12 +15,18 @@ import { Link } from "react-router-dom";
 
 function Homepage(){
   console.log("loading homepage")
-  const {user} = useContext(userContext);
+  const { username } = useContext(userContext);
+
+  console.log('username', username);
 
   return (
-    (user)
+
+    <div className='Homepage'>
+    {(username)
       ?
-        <h3> Welcome back {user.username} </h3>
+      <div className='Homepage-welcome'>
+        <h3> Welcome back {username} </h3>
+      </div>
       :
         <>
           <Link to="/login">
@@ -35,6 +41,8 @@ function Homepage(){
             </div>
           </Link>
         </>
+    }
+    </div>
 
   )
 }

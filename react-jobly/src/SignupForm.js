@@ -10,7 +10,12 @@ const INITIAL_FORM_DATA = {
 
 /** Renders a signup form
  *
- * STATE: formData
+ * STATE:
+ * -formData:
+  * { username, password, firstName, lastName, email }
+
+ * - errors:
+ * ['error1', 'error2', ....]
  *
  * PROPS: doSignup (callback function)
  *
@@ -20,6 +25,8 @@ const INITIAL_FORM_DATA = {
 function SignupForm({ doSignup }) {
 
   const [formData, setFormData] = useState(INITIAL_FORM_DATA);
+  const [errors, setErrors] = useState(null);
+  console.log('errors', errors);
 
   console.log('***formData', formData);
 
@@ -34,16 +41,24 @@ function SignupForm({ doSignup }) {
 
   /** Send search term to parent & clear form. */
 
-  function handleSubmit(evt) {
-    evt.preventDefault();
-    doSignup(formData);
-    setFormData(INITIAL_FORM_DATA);
+  async function handleSubmit(evt) {
+    try {
+      evt.preventDefault();
+      await doSignup(formData);
+      setFormData(INITIAL_FORM_DATA);
+
+    } catch (err) {
+      setErrors(err);
+    }
   }
 
 
   return (
 
     <div className='SignupForm'>
+
+      {errors ? errors.map(error => <h3>{error}</h3>) : ''}
+
       <form onSubmit={handleSubmit}>
         <label htmlFor='username'>Username</label>
         <input

@@ -61,28 +61,26 @@ function App() {
 
   /** Calls the api with login credentials and tries to log the user in
    * If successful, updates the token and the user states.
-   * TODO: On failure, publish an error message
-   *
    * data: {username, password}
    */
 
   async function login(credentials) {
-    const token = await JoblyApi.userLogin(credentials);
-    setToken(token);
 
-    setUser({username:credentials.username});
+      const token = await JoblyApi.userLogin(credentials);
+      setToken(token);
+      setUser({username:credentials.username});
+
 
   }
 
   /** Logs the user out and resets state for the app */
   function logout() {
-    setUser(null);
+    setUser(INITIAL_USER_DATA);
     setToken(null);
   }
 
   /** Calls the api with user data and tries to create a new account.
    * If successful, updates the token and user states.
-   * TODO: On failure, publish an error message
    *
    * userData:{username, password, firstName, lastName, email}
    */
@@ -101,7 +99,7 @@ function App() {
 
   return (
     <div className='App'>
-      <userContext.Provider value={{ username: user?.username, token }}>
+      <userContext.Provider value={ user }>
         <BrowserRouter>
           <Navigation logout={logout} />
           <RoutesList register={register} login={login} />

@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 
-const INITIAL_FORM_DATA={
-  username:"",
-  password:"",
-}
+const INITIAL_FORM_DATA = {
+  username: "",
+  password: "",
+};
 
 /** Renders a login form
  *
- * STATE: formData
+ * STATE:
+ * -formData:
+ * {username, password}
+
+ * - errors:
+ *  ['error1', 'error2', ....]
+
  *
  * PROPS: doLogin (callback function)
  *
@@ -15,9 +21,10 @@ const INITIAL_FORM_DATA={
  */
 
 
-function LoginForm({doLogin}) {
+function LoginForm({ doLogin }) {
 
-  const [formData, setFormData] = useState(INITIAL_FORM_DATA)
+  const [formData, setFormData] = useState(INITIAL_FORM_DATA);
+  const [errors, setErrors] = useState(null);
 
   /** Update local state w/curr state of input elem */
   function handleChange(evt) {
@@ -30,14 +37,24 @@ function LoginForm({doLogin}) {
 
   /** Send search term to parent & clear form. */
 
-  function handleSubmit(evt) {
-    evt.preventDefault();
-    doLogin(formData);
-    setFormData(INITIAL_FORM_DATA);
+  async function handleSubmit(evt) {
+    try {
+      evt.preventDefault();
+      await doLogin(formData);
+      setFormData(INITIAL_FORM_DATA);
+
+    } catch (err) {
+      setErrors(err);
+    }
   }
 
   return (
+
+
     <div className='LoginForm'>
+
+      {errors ? errors.map(error => <h3>{error}</h3>) : ''}
+
       <form onSubmit={handleSubmit}>
         <label htmlFor='username'>Username</label>
         <input
@@ -53,14 +70,14 @@ function LoginForm({doLogin}) {
           name='password'
           value={formData.password}
           onChange={handleChange} />
-      <button>Login</button>
+        <button>Login</button>
       </form>
 
     </div>
 
 
 
-  )
+  );
 
 }
 

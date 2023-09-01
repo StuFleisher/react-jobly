@@ -24,10 +24,12 @@ function RoutesList({login, register}) {
 
   return (
     <Routes>
+      <>
+      <Route path='/' element={<Homepage />}/>
+      </>
       {!username
       ?
       <>
-      <Route path='/' element={<Homepage />}/>
       <Route path='/login' element={<LoginForm doLogin={login} />}/>
       <Route path='/signup' element={<SignupForm doSignup={register} />}/>
       </>
