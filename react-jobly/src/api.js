@@ -1,4 +1,6 @@
 import axios from "axios";
+import jwt_decode from 'jwt-decode';
+
 
 const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
 
@@ -82,6 +84,7 @@ class JoblyApi {
   static async userLogin(data) {
     const responseData = await this.request('auth/token', data, 'post');
     JoblyApi.token = responseData.token;
+    console.log('*****userLogin', JoblyApi.token)
     return responseData.token;
   }
 
@@ -90,6 +93,8 @@ class JoblyApi {
   static async userSignup(data) {
     const responseData = await this.request('auth/register', data, 'post');
     JoblyApi.token = responseData.token;
+    console.log('*****userSignup', JoblyApi.token)
+
     return responseData.token;
   }
 
@@ -97,14 +102,35 @@ class JoblyApi {
 
   static async getUser(username) {
     console.log("api fetching", username);
+    console.log('*****getUser', JoblyApi.token);
     const responseData = await this.request(`users/${username}`);
     console.log(responseData);
     return responseData.user;
   }
-  // obviously, you'll add a lot here ...
+
+  /** Updates user information */
+
+  static async updateUser(data, username){
+    const responseData = await this.request(`users/${username}`, data, 'patch')
+    return responseData.user;
+  }
+
+
+  /** Logs out a user and sets the token to null */
 
   static userLogout() {
     JoblyApi.token = null;
+  }
+
+  /** Get the username from decoded token. Sets token and returns username.
+   * token is a jwt with a username key.
+  */
+
+  static getUsernameFromToken(token){
+    const { username } = jwt_decode(token);
+    console.log('***token', jwt_decode(token));
+    JoblyApi.token = token;
+    return username;
   }
 }
 

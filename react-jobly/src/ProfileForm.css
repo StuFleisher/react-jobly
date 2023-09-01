@@ -1,0 +1,23 @@
+.ProfileForm {
+    font-size: 1em;
+}
+
+.ProfileForm * {
+    margin:.25em;
+}
+
+.ProfileForm input {
+    padding:.25em;
+
+}
+
+.ProfileForm label {
+    color:white;
+}
+
+.ProfileForm button {
+    background-color: rgb(68, 14, 168);
+    color: white;
+    border-radius: 10px;
+    border:none;
+}

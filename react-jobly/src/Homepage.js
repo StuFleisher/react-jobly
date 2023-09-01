@@ -16,7 +16,7 @@ import './Homepage.css';
 
 function Homepage(){
   // console.log("loading homepage")
-  const { username } = useContext(userContext);
+  const { username, firstName } = useContext(userContext);
 
   // console.log('username', username);
 
@@ -26,7 +26,7 @@ function Homepage(){
     {(username)
       ?
       <div className='Homepage-welcome'>
-        <h3> Welcome back, {username} </h3>
+        <h3> Welcome back, {firstName} </h3>
       </div>
       :
         <>

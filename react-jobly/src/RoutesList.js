@@ -7,6 +7,7 @@ import SignupForm from "./SignupForm";
 import LoginForm from './LoginForm';
 import {useContext} from "react";
 import userContext from "./userContext";
+import ProfileForm from "./ProfileForm";
 
 
 /**Renders a list of all routes
@@ -14,11 +15,12 @@ import userContext from "./userContext";
  *  PROPS:
  *    login (callback for logins)
  *    register (callback for user signups)
+ *    update (callback for user updates)
  * App -> RouteList -> {Homepage, Companies, CompanyDetails, Joblist}
 */
 //TODO: refactor insteead of passing the entire user
 
-function RoutesList({login, register}) {
+function RoutesList({login, register, update}) {
 
   const { username } = useContext(userContext);
 
@@ -41,6 +43,7 @@ function RoutesList({login, register}) {
       <Route path='/companies' element={<CompanyList />}/>
       <Route path='/companies/:handle' element={<CompanyDetails />}/>
       <Route path='/jobs' element={<JobList />}/>
+      <Route path='/profile' element={<ProfileForm doUpdate={update}/>}/>
       <Route path='*' element={<Navigate to='/' />}/>
     </>
     }
@@ -49,8 +52,6 @@ function RoutesList({login, register}) {
 
 }
 
-//TODO: for later use
-/* <Route path='/profile' element={<ProfileForm />}/> */
 
 
 export default RoutesList;

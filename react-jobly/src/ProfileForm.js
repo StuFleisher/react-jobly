@@ -1,35 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {useNavigate} from 'react-router-dom';
+import userContext from "./userContext";
+import './ProfileForm.css';
 
-const INITIAL_FORM_DATA = {
-  username: "",
-  password: "",
-  firstName: "",
-  lastName: "",
-  email: "",
-};
 
-/** Renders a signup form
+
+/** Renders a profile form
  *
  * STATE:
  * -formData:
 
-  * { username, password, firstName, lastName, email }
+  * { username, firstName, lastName, email }
 
  * - errors:
  * ['error1', 'error2', ....]
  *
- * PROPS: doSignup (callback function)
+ * -success:
+ * initially false, tracks whether form was submitted successfully
  *
- * RoutesList --> SignupForm --> Alert
+ * PROPS: doUpdate (callback function)
+ *
+ * RoutesList --> ProfileForm --> Alert
  */
 
-function SignupForm({ doSignup }) {
+function ProfileForm({ doUpdate }) {
 
-  const [formData, setFormData] = useState(INITIAL_FORM_DATA);
+  const user = useContext(userContext);
+
+  console.log('*******user', user);
+
+  const [formData, setFormData] = useState(user);
   const [errors, setErrors] = useState(null);
+  const [success, setSuccess] = useState(false);
 
-  const navigate = useNavigate();
 
   console.log('errors', errors);
 
@@ -44,24 +47,26 @@ function SignupForm({ doSignup }) {
     }));
   }
 
-  /** Send search term to parent & clear form. */
+  /** Send search term to parent. */
   async function handleSubmit(evt) {
     evt.preventDefault();
     try {
-      await doSignup(formData);
-      setFormData(INITIAL_FORM_DATA);
-      navigate('/');
+      await doUpdate(formData);
+      setSuccess(true);
+      setErrors(null);
 
-    } catch (err) {
-      setErrors(err);
+    } catch (errs) {
+      setErrors(errs);
+      setSuccess(false);
     }
   }
 
   return (
 
-    <div className='SignupForm'>
+    <div className='ProfileForm'>
 
       {errors ? errors.map((error, index) => <h3 key={index}>{error}</h3>) : ''}
+      {success ? <h3>Updated successfully</h3> : ''}
 
       <form onSubmit={handleSubmit}>
         <div>
@@ -71,17 +76,8 @@ function SignupForm({ doSignup }) {
             name='username'
             value={formData.username}
             onChange={handleChange}
-            autoComplete='username' />
-        </div>
-        <div>
-          <label htmlFor='password'>Password</label>
-          <input
-            type='password'
-            id='password'
-            name='password'
-            value={formData.password}
-            onChange={handleChange}
-            autoComplete='new-password' />
+            autoComplete='username'
+            disabled={true}/>
         </div>
 
         <div>
@@ -104,7 +100,6 @@ function SignupForm({ doSignup }) {
         <div>
           <label htmlFor='email'>email</label>
           <input
-            type='email'
             id='email'
             name='email'
             value={formData.email}
@@ -117,4 +112,4 @@ function SignupForm({ doSignup }) {
 
 }
 
-export default SignupForm;
+export default ProfileForm;
