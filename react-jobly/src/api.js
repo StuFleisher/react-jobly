@@ -25,8 +25,8 @@ class JoblyApi {
     const url = `${BASE_URL}/${endpoint}`;
     const headers = { Authorization: `Bearer ${JoblyApi.token}` };
     const params = (method === "get")
-        ? data
-        : {};
+      ? data
+      : {};
 
     try {
       return (await axios({ url, method, data, params, headers })).data;
@@ -57,7 +57,7 @@ class JoblyApi {
 
   /** Get a list of all jobs filtered by title */
 
-  static async getAllJobs(title){
+  static async getAllJobs(title) {
 
     const queryString = title ? `?title=${title}` : '';
     const data = await this.request(`jobs${queryString}`);
@@ -68,7 +68,7 @@ class JoblyApi {
 
   /** Get a list of all jobs filtered by company */
 
-  static async getJobsByCompany(company){
+  static async getJobsByCompany(company) {
 
     const queryString = company ? `?title=${company}` : '';
     const data = await this.request(`jobs${queryString}`);
@@ -80,26 +80,32 @@ class JoblyApi {
   /** Login for a user */
 
   static async userLogin(data) {
-    const responseData = await this.request('auth/token', data, 'post')
+    const responseData = await this.request('auth/token', data, 'post');
+    JoblyApi.token = responseData.token;
     return responseData.token;
   }
 
   /** Signup for a user */
 
-  static async userSignup(data){
-    const responseData = await this.request('auth/register', data, 'post')
+  static async userSignup(data) {
+    const responseData = await this.request('auth/register', data, 'post');
+    JoblyApi.token = responseData.token;
     return responseData.token;
   }
 
   /** Get a user by username */
 
-  static async getUser(username){
-    console.log("api fetching",username)
-    const responseData = await this.request(`users/${username}`)
-    console.log(responseData)
+  static async getUser(username) {
+    console.log("api fetching", username);
+    const responseData = await this.request(`users/${username}`);
+    console.log(responseData);
     return responseData.user;
   }
   // obviously, you'll add a lot here ...
+
+  static userLogout() {
+    JoblyApi.token = null;
+  }
 }
 
 

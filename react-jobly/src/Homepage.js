@@ -15,10 +15,10 @@ import './Homepage.css';
  */
 
 function Homepage(){
-  console.log("loading homepage")
+  // console.log("loading homepage")
   const { username } = useContext(userContext);
 
-  console.log('username', username);
+  // console.log('username', username);
 
   return (
 

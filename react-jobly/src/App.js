@@ -6,8 +6,9 @@ import RoutesList from './RoutesList';
 import userContext from './userContext.js';
 import JoblyApi from './api';
 import jwt_decode from 'jwt-decode';
+import LoadingPage from './LoadingPage';
 
-const INITIAL_USER_DATA = {
+const ANON_USER = {
   username:null,
   firstName:null,
   lastName:null,
@@ -29,58 +30,53 @@ const INITIAL_USER_DATA = {
  */
 function App() {
 
-  const [user, setUser] = useState(INITIAL_USER_DATA);
-  const [token, setToken] = useState(null);
+  const [user, setUser] = useState(ANON_USER);
+  const [token, setToken] = useState(localStorage.getItem("token")||null);
 
   console.log("rendering app.\n user:",user,"\ntoken:",token );
 
-  /** Stores the users token in the JoblyApi class for future use */
-  useEffect(function updateTokenOnMount() {
-    async function updateToken() {
+  /** Sets state about our current user and token by doing the following:
+   * -Stores the users token in local storages
+   * -Sets the token property on the JoblyApi class
+   * -Makes an api call and updates the user state
+   */
+  useEffect(function saveStateOnMountOrChange() {
 
-      JoblyApi.token = token;
-      if (JoblyApi.token){
-        const { username } = jwt_decode(token)
+    async function saveState() {
+      //TODO: move to api file
+
+      if (token){
+        localStorage.setItem("token", token);
+        const { username } = jwt_decode(token);
         const userData = await JoblyApi.getUser(username);
-        setUser(userData)
+        setUser(userData);
       }
-
     }
-    updateToken();
+
+    saveState();
   }, [token]);
-
-
-  /** Makes an api call and updates the remaining user data whenever
-   * username changes */
-
-  // useEffect(function getFullUserDataOnNameChange(){
-  //   async function getFullUserData(){
-  //   }
-
-  //   if (user.username){getFullUserData()};
-
-  // },[user.username])
 
 
   /** Calls the api with login credentials and tries to log the user in
    * If successful, updates the token and the user states.
-   * data: {username, password}
+   * data: {username, password}//TODO: update docstring
    */
 
   async function login(credentials) {
-
       const token = await JoblyApi.userLogin(credentials);
       setToken(token);
-      setUser({username:credentials.username});
-
-
   }
 
-  /** Logs the user out and resets state for the app */
+
+  /** Logs the user out
+   *  Clears token from localstorage and resets state for the app */
+
   function logout() {
-    setUser(INITIAL_USER_DATA);
-    setToken(null);
+    setUser(ANON_USER);
+    localStorage.removeItem("token");
+    JoblyApi.userLogout();
   }
+
 
   /** Calls the api with user data and tries to create a new account.
    * If successful, updates the token and user states.
@@ -99,17 +95,20 @@ function App() {
   }
 
 
-
   return (
     <div className='App'>
-      <userContext.Provider value={ user }>
-        <BrowserRouter>
-          <Navigation logout={logout} />
-          <RoutesList register={register} login={login} />
-        </BrowserRouter>
-      </ userContext.Provider>
+      {(token && !user.username)
+        ?
+          <LoadingPage />
+        :
+          <userContext.Provider value={ user }>
+            <BrowserRouter>
+              <Navigation logout={logout} />
+              <RoutesList register={register} login={login} />
+            </BrowserRouter>
+          </ userContext.Provider>
+      }
     </div>
-
   );
 }
 
