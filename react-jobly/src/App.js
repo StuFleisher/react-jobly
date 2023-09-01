@@ -5,6 +5,7 @@ import Navigation from './Navigation';
 import RoutesList from './RoutesList';
 import userContext from './userContext.js';
 import JoblyApi from './api';
+import jwt_decode from 'jwt-decode';
 
 const INITIAL_USER_DATA = {
   username:null,
@@ -34,11 +35,15 @@ function App() {
   console.log("rendering app.\n user:",user,"\ntoken:",token );
 
   /** Stores the users token in the JoblyApi class for future use */
-
   useEffect(function updateTokenOnMount() {
     async function updateToken() {
 
       JoblyApi.token = token;
+      if (JoblyApi.token){
+        const { username } = jwt_decode(token)
+        const userData = await JoblyApi.getUser(username);
+        setUser(userData)
+      }
 
     }
     updateToken();
@@ -48,15 +53,13 @@ function App() {
   /** Makes an api call and updates the remaining user data whenever
    * username changes */
 
-  useEffect(function getFullUserDataOnNameChange(){
-    async function getFullUserData(){
-      const userData = await JoblyApi.getUser(user.username);
-      setUser(userData)
-    }
+  // useEffect(function getFullUserDataOnNameChange(){
+  //   async function getFullUserData(){
+  //   }
 
-    if (user.username){getFullUserData()};
+  //   if (user.username){getFullUserData()};
 
-  },[user.username])
+  // },[user.username])
 
 
   /** Calls the api with login credentials and tries to log the user in

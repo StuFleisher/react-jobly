@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import userContext from "./userContext";
 import { Link } from "react-router-dom";
+import './Homepage.css';
 
 /** Renders the homepage.  Adds a welcome message to logged in users or links
  * for logged out users
@@ -25,7 +26,7 @@ function Homepage(){
     {(username)
       ?
       <div className='Homepage-welcome'>
-        <h3> Welcome back {username} </h3>
+        <h3> Welcome back, {username} </h3>
       </div>
       :
         <>

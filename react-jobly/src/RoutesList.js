@@ -16,6 +16,7 @@ import userContext from "./userContext";
  *    register (callback for user signups)
  * App -> RouteList -> {Homepage, Companies, CompanyDetails, Joblist}
 */
+//TODO: refactor insteead of passing the entire user
 
 function RoutesList({login, register}) {
 
@@ -32,6 +33,7 @@ function RoutesList({login, register}) {
       <>
       <Route path='/login' element={<LoginForm doLogin={login} />}/>
       <Route path='/signup' element={<SignupForm doSignup={register} />}/>
+      <Route path='*' element={<Navigate to='/login' />}/>
       </>
 
      :
