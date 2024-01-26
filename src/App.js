@@ -5,7 +5,6 @@ import Navigation from './Navigation';
 import RoutesList from './RoutesList';
 import userContext from './userContext.js';
 import JoblyApi from './api';
-import jwt_decode from 'jwt-decode';
 import LoadingPage from './LoadingPage';
 
 const ANON_USER = {
