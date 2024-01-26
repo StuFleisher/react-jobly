@@ -36,8 +36,6 @@ function ProfileForm({ doUpdate }) {
 
   console.log('errors', errors);
 
-  console.log('***formData', formData);
-
   /** Update local state w/curr state of input elem */
   function handleChange(evt) {
     const { name, value } = evt.target;

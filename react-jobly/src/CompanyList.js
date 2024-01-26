@@ -18,8 +18,6 @@ function CompanyList() {
 
   const [companies, setCompanies] = useState({ all: [], isLoading: true });
 
-  console.log('***companies', companies);
-
   useEffect(function fetchCompaniesOnMount() {
 
     fetchCompanies();
@@ -32,7 +30,6 @@ function CompanyList() {
     //TODO: rename the var in 33
     const companiesListFromResponse = await JoblyApi.getAllCompanies(nameLike);
 
-    console.log('**response', companiesListFromResponse);
     setCompanies({ isLoading: false, all: companiesListFromResponse });
   }
 

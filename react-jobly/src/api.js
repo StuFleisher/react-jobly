@@ -84,7 +84,6 @@ class JoblyApi {
   static async userLogin(data) {
     const responseData = await this.request('auth/token', data, 'post');
     JoblyApi.token = responseData.token;
-    console.log('*****userLogin', JoblyApi.token)
     return responseData.token;
   }
 
@@ -93,7 +92,6 @@ class JoblyApi {
   static async userSignup(data) {
     const responseData = await this.request('auth/register', data, 'post');
     JoblyApi.token = responseData.token;
-    console.log('*****userSignup', JoblyApi.token)
 
     return responseData.token;
   }
@@ -101,10 +99,7 @@ class JoblyApi {
   /** Get a user by username */
 
   static async getUser(username) {
-    console.log("api fetching", username);
-    console.log('*****getUser', JoblyApi.token);
     const responseData = await this.request(`users/${username}`);
-    console.log(responseData);
     return responseData.user;
   }
 
@@ -128,7 +123,6 @@ class JoblyApi {
 
   static getUsernameFromToken(token){
     const { username } = jwt_decode(token);
-    console.log('***token', jwt_decode(token));
     JoblyApi.token = token;
     return username;
   }

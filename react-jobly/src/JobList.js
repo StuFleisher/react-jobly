@@ -19,7 +19,6 @@ import LoadingPage from "./LoadingPage";
 function JobList() {
 
   const [jobs, setJobs] = useState({ isLoading: true, jobs: [] });
-  console.log('jobs', jobs);
 
   useEffect(function fetchJobsOnMount() {
     fetchJobs();
@@ -29,7 +28,6 @@ function JobList() {
   async function fetchJobs(title) {
 
       const response = await JoblyApi.getAllJobs(title);
-      console.log('response', response);
       setJobs({ isLoading: false, jobs: response });
 
   }

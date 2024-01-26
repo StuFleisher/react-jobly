@@ -33,8 +33,6 @@ function App() {
   const [user, setUser] = useState(ANON_USER);
   const [token, setToken] = useState(localStorage.getItem("token") || null);
 
-  console.log("rendering app.\n user:", user, "\ntoken:", token);
-
   /** Sets state about our current user and token by doing the following:
    * -Stores the users token in local storages
    * -Sets the token property on the JoblyApi class

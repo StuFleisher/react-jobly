@@ -27,8 +27,6 @@ function CompanyDetails() {
     company: {}, isLoading: true
   });
 
-  console.log('***companyDetails', companyDetails);
-
 
   useEffect(function fetchCompanyDetailsWhenMounted() {
 
@@ -36,7 +34,6 @@ function CompanyDetails() {
     async function fetchCompanyDetails() {
       try {
         const response = await JoblyApi.getCompany(handle);
-        console.log("***response", response)
 
         setCompanyDetails({
           company: response, isLoading: false

@@ -17,8 +17,6 @@ function SearchForm({ doSearch }) {
 
   const [formData, setFormData] = useState({term: ''});
 
-  console.log('formData', formData);
-
   /** Send search term to parent
  *    & clear form. */
   function handleSubmit(evt) {
