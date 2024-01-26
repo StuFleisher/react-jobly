@@ -26,14 +26,10 @@ function ProfileForm({ doUpdate }) {
 
   const user = useContext(userContext);
 
-  console.log('*******user', user);
-
   const [formData, setFormData] = useState(user);
   const [errors, setErrors] = useState(null);
   const [success, setSuccess] = useState(false);
 
-
-  console.log('errors', errors);
 
   /** Update local state w/curr state of input elem */
   function handleChange(evt) {

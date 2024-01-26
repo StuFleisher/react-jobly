@@ -31,8 +31,6 @@ function SignupForm({ doSignup }) {
 
   const navigate = useNavigate();
 
-  console.log('errors', errors);
-
   /** Update local state w/curr state of input elem */
   function handleChange(evt) {
     const { name, value } = evt.target;
